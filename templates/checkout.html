@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - FoodExpress</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        .navbar {
+            background: white;
+            padding: 18px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            color: #ff4d2d;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: #ff4d2d;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        h1 {
+            margin-bottom: 25px;
+        }
+
+        .checkout-layout {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 25px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+        }
+
+        .card h2 {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            resize: vertical;
+            font-size: 15px;
+        }
+
+        .payment-option {
+            margin-bottom: 15px;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        .payment-option input {
+            margin-right: 10px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        .total {
+            border-top: 1px solid #ddd;
+            padding-top: 18px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #222;
+        }
+
+        .place-order-btn {
+            width: 100%;
+            border: none;
+            background: #ff4d2d;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .place-order-btn:hover {
+            background: #e63d20;
+        }
+
+        .flash-message {
+            max-width: 1100px;
+            margin: 20px auto;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .flash-message.error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        @media(max-width: 800px) {
+            .checkout-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<nav class="navbar">
+    <div class="logo">FoodExpress</div>
+    <div class="nav-links">
+        <a href="{{ url_for('home') }}">Home</a>
+        <a href="{{ url_for('restaurants') }}">Restaurants</a>
+        <a href="{{ url_for('cart') }}">🛒 Cart</a>
+        {% if session.get("user_id") %}
+            <a href="{{ url_for('profile') }}">Profile</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
+        {% else %}
+            <a href="{{ url_for('register') }}">Register</a>
+            <a href="{{ url_for('login') }}">Login</a>
+        {% endif %}
+    </div>
+</nav>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <div class="flash-message {{ category }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+<main class="container">
+    <h1>Checkout</h1>
+
+    <div class="checkout-layout">
+        <div>
+            <div class="card">
+                <h2>Delivery Address</h2>
+                <form action="{{ url_for('checkout') }}" method="POST" id="checkout-form">
+                    <label>Delivery Address</label>
+                    <textarea name="delivery_address" required>{{ address if address else '' }}</textarea>
+
+                    <h2 style="margin-top: 25px;">Payment Method</h2>
+                    <div class="payment-option">
+                        <label>
+                            <input type="radio" name="payment_method" value="Cash on Delivery" checked>
+                            Cash on Delivery
+                        </label>
+                    </div>
+                    <div class="payment-option">
+                        <label>
+                            <input type="radio" name="payment_method" value="UPI">
+                            UPI
+                        </label>
+                    </div>
+                    <div class="payment-option">
+                        <label>
+                            <input type="radio" name="payment_method" value="Card">
+                            Card
+                        </label>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Order Summary</h2>
+            {% if cart_items %}
+                {% for item in cart_items %}
+                    <div class="summary-row">
+                        <span>{{ item[1] }} × {{ item[5] }}</span>
+                        <span>₹{{ "%.2f"|format(item[6]) }}</span>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <div class="summary-row">
+                <span>Subtotal</span>
+                <span>₹{{ "%.2f"|format(subtotal if subtotal else 0.0) }}</span>
+            </div>
+
+            <div class="summary-row">
+                <span>Delivery Fee</span>
+                <span>₹{{ "%.2f"|format(delivery_fee if delivery_fee else 40.0) }}</span>
+            </div>
+
+            <div class="summary-row total">
+                <span>Total</span>
+                <span>₹{{ "%.2f"|format(total_amount if total_amount else 0.0) }}</span>
+            </div>
+
+            <button type="submit" form="checkout-form" class="place-order-btn">
+                Place Order
+            </button>
+        </div>
+    </div>
+</main>
+
+</body>
+</html>
