@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>My Cart - FoodExpress</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        body {
+
+            font-family: Arial, sans-serif;
+
+            background: #f5f5f5;
+
+            color: #333;
+        }
+
+
+        /* =================================
+           NAVBAR
+        ================================= */
+
+        .navbar {
+
+            background: #ffffff;
+
+            padding: 18px 7%;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            box-shadow:
+                0 2px 8px rgba(0,0,0,0.08);
+
+        }
+
+
+        .logo {
+
+            font-size: 25px;
+
+            font-weight: bold;
+
+            color: #ff4d2d;
+        }
+
+
+        .nav-links {
+
+            display: flex;
+
+            gap: 25px;
+
+            align-items: center;
+        }
+
+
+        .nav-links a {
+
+            text-decoration: none;
+
+            color: #333;
+
+            font-weight: 500;
+        }
+
+
+        .nav-links a:hover {
+
+            color: #ff4d2d;
+        }
+
+
+        /* =================================
+           MAIN CONTAINER
+        ================================= */
+
+        .container {
+
+            max-width: 1100px;
+
+            margin: 40px auto;
+
+            padding: 0 20px;
+        }
+
+
+        .page-title {
+
+            font-size: 32px;
+
+            margin-bottom: 25px;
+        }
+
+
+        /* =================================
+           CART LAYOUT
+        ================================= */
+
+        .cart-layout {
+
+            display: grid;
+
+            grid-template-columns:
+                2fr 1fr;
+
+            gap: 25px;
+        }
+
+
+        /* =================================
+           CART ITEMS
+        ================================= */
+
+        .cart-items {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 15px;
+        }
+
+
+        .cart-item {
+
+            background: white;
+
+            border-radius: 12px;
+
+            padding: 18px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 18px;
+
+            box-shadow:
+                0 2px 8px rgba(0,0,0,0.08);
+        }
+
+
+        .food-image {
+
+            width: 120px;
+
+            height: 100px;
+
+            object-fit: cover;
+
+            border-radius: 10px;
+        }
+
+
+        .food-info {
+
+            flex: 1;
+        }
+
+
+        .food-name {
+
+            font-size: 19px;
+
+            font-weight: bold;
+
+            margin-bottom: 7px;
+        }
+
+
+        .food-description {
+
+            color: #777;
+
+            font-size: 14px;
+
+            margin-bottom: 8px;
+        }
+
+
+        .food-price {
+
+            font-weight: bold;
+
+            color: #ff4d2d;
+        }
+
+
+        /* =================================
+           QUANTITY
+        ================================= */
+
+        .quantity-form {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+        }
+
+
+        .quantity-input {
+
+            width: 55px;
+
+            padding: 8px;
+
+            text-align: center;
+
+            border: 1px solid #ddd;
+
+            border-radius: 6px;
+        }
+
+
+        .update-btn {
+
+            border: none;
+
+            background: #333;
+
+            color: white;
+
+            padding: 8px 12px;
+
+            border-radius: 6px;
+
+            cursor: pointer;
+        }
+
+
+        .update-btn:hover {
+
+            background: #111;
+        }
+
+
+        /* =================================
+           SUBTOTAL
+        ================================= */
+
+        .subtotal {
+
+            font-size: 17px;
+
+            font-weight: bold;
+
+            min-width: 100px;
+
+            text-align: right;
+        }
+
+
+        /* =================================
+           REMOVE BUTTON
+        ================================= */
+
+        .remove-form {
+
+            margin-top: 8px;
+
+            text-align: right;
+        }
+
+
+        .remove-btn {
+
+            border: none;
+
+            background: transparent;
+
+            color: #e53935;
+
+            cursor: pointer;
+
+            font-size: 14px;
+        }
+
+
+        .remove-btn:hover {
+
+            text-decoration: underline;
+        }
+
+
+        /* =================================
+           ORDER SUMMARY
+        ================================= */
+
+        .summary {
+
+            background: white;
+
+            border-radius: 12px;
+
+            padding: 25px;
+
+            height: fit-content;
+
+            box-shadow:
+                0 2px 8px rgba(0,0,0,0.08);
+        }
+
+
+        .summary h2 {
+
+            margin-bottom: 20px;
+        }
+
+
+        .summary-row {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            margin-bottom: 15px;
+
+            color: #555;
+        }
+
+
+        .total-row {
+
+            border-top: 1px solid #ddd;
+
+            padding-top: 18px;
+
+            margin-top: 10px;
+
+            font-size: 20px;
+
+            font-weight: bold;
+
+            color: #222;
+        }
+
+
+        .checkout-btn {
+
+            display: block;
+
+            width: 100%;
+
+            text-align: center;
+
+            background: #ff4d2d;
+
+            color: white;
+
+            text-decoration: none;
+
+            padding: 14px;
+
+            border-radius: 8px;
+
+            margin-top: 20px;
+
+            font-weight: bold;
+
+            border: none;
+
+            cursor: pointer;
+        }
+
+
+        .checkout-btn:hover {
+
+            background: #e63d20;
+        }
+
+
+        /* =================================
+           EMPTY CART
+        ================================= */
+
+        .empty-cart {
+
+            background: white;
+
+            text-align: center;
+
+            padding: 70px 20px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 2px 8px rgba(0,0,0,0.08);
+        }
+
+
+        .empty-cart h2 {
+
+            margin-bottom: 12px;
+        }
+
+
+        .empty-cart p {
+
+            color: #777;
+
+            margin-bottom: 25px;
+        }
+
+
+        .browse-btn {
+
+            display: inline-block;
+
+            background: #ff4d2d;
+
+            color: white;
+
+            text-decoration: none;
+
+            padding: 12px 25px;
+
+            border-radius: 8px;
+
+            font-weight: bold;
+        }
+
+
+        /* =================================
+           FLASH MESSAGES
+        ================================= */
+
+        .flash-container {
+
+            max-width: 1100px;
+
+            margin: 20px auto;
+
+            padding: 0 20px;
+        }
+
+
+        .flash-message {
+
+            padding: 14px 18px;
+
+            border-radius: 8px;
+
+            margin-bottom: 10px;
+
+            font-weight: bold;
+        }
+
+
+        .flash-message.success {
+
+            background: #d4edda;
+
+            color: #155724;
+        }
+
+
+        .flash-message.error {
+
+            background: #f8d7da;
+
+            color: #721c24;
+        }
+
+
+        /* =================================
+           MOBILE
+        ================================= */
+
+        @media (max-width: 800px) {
+
+            .cart-layout {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .cart-item {
+
+                flex-wrap: wrap;
+            }
+
+
+            .food-image {
+
+                width: 100px;
+
+                height: 85px;
+            }
+
+
+            .subtotal {
+
+                width: 100%;
+
+                text-align: left;
+            }
+
+
+            .nav-links {
+
+                gap: 12px;
+
+                font-size: 14px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =================================
+         NAVBAR
+    ================================= -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            FoodExpress
+        </div>
+
+
+        <div class="nav-links">
+
+            <a href="{{ url_for('home') }}">
+                Home
+            </a>
+
+            <a href="{{ url_for('restaurants') }}">
+                Restaurants
+            </a>
+
+            <a href="{{ url_for('profile') }}">
+                Profile
+            </a>
+
+            <a href="{{ url_for('cart') }}">
+                🛒 Cart
+            </a>
+
+            <a href="{{ url_for('logout') }}">
+                Logout
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- =================================
+         FLASH MESSAGES
+    ================================= -->
+
+    {% with messages =
+        get_flashed_messages(
+            with_categories=true
+        )
+    %}
+
+        {% if messages %}
+
+            <div class="flash-container">
+
+                {% for category, message in messages %}
+
+                    <div class="flash-message {{ category }}">
+
+                        {{ message }}
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+
+    {% endwith %}
+
+
+
+    <!-- =================================
+         MAIN
+    ================================= -->
+
+    <main class="container">
+
+        <h1 class="page-title">
+            🛒 My Cart
+        </h1>
+
+
+        {% if cart_items %}
+
+
+            <div class="cart-layout">
+
+
+                <!-- =========================
+                     CART ITEMS
+                ========================== -->
+
+                <div class="cart-items">
+
+
+                    {% for item in cart_items %}
+
+                        <div class="cart-item">
+
+
+                            <!-- FOOD IMAGE -->
+
+                            <img
+                                src="{{ item[4] }}"
+                                alt="{{ item[1] }}"
+                                class="food-image"
+                            >
+
+
+                            <!-- FOOD INFORMATION -->
+
+                            <div class="food-info">
+
+                                <div class="food-name">
+                                    {{ item[1] }}
+                                </div>
+
+
+                                <div class="food-description">
+
+                                    {{ item[2] }}
+
+                                </div>
+
+
+                                <div class="food-price">
+
+                                    ₹{{ "%.2f"|format(item[3]) }}
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- QUANTITY -->
+
+                            <div>
+
+                                <form
+                                    class="quantity-form"
+                                    action="{{ url_for(
+                                        'update_cart',
+                                        cart_item_id=item[0]
+                                    ) }}"
+                                    method="POST"
+                                >
+
+                                    <input
+                                        type="number"
+                                        name="quantity"
+                                        value="{{ item[5] }}"
+                                        min="1"
+                                        class="quantity-input"
+                                    >
+
+
+                                    <button
+                                        type="submit"
+                                        class="update-btn"
+                                    >
+                                        Update
+                                    </button>
+
+                                </form>
+
+
+                                <!-- REMOVE -->
+
+                                <form
+                                    class="remove-form"
+                                    action="{{ url_for(
+                                        'remove_cart_item_route',
+                                        cart_item_id=item[0]
+                                    ) }}"
+                                    method="POST"
+                                >
+
+                                    <button
+                                        type="submit"
+                                        class="remove-btn"
+                                    >
+                                        Remove
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+
+                            <!-- SUBTOTAL -->
+
+                            <div class="subtotal">
+
+                                ₹{{ "%.2f"|format(item[6]) }}
+
+                            </div>
+
+
+                        </div>
+
+                    {% endfor %}
+
+
+                </div>
+
+
+                <!-- =========================
+                     SUMMARY
+                ========================== -->
+
+                <div class="summary">
+
+                    <h2>
+                        Order Summary
+                    </h2>
+
+
+                    <div class="summary-row">
+
+                        <span>
+                            Items
+                        </span>
+
+                        <span>
+                            {{ cart_items|length }}
+                        </span>
+
+                    </div>
+
+
+                    <div class="summary-row">
+
+                        <span>
+                            Subtotal
+                        </span>
+
+                        <span>
+                            ₹{{ "%.2f"|format(cart_total) }}
+                        </span>
+
+                    </div>
+
+
+                    <div class="summary-row">
+
+                        <span>
+                            Delivery Fee
+                        </span>
+
+                        <span>
+                            ₹40.00
+                        </span>
+
+                    </div>
+
+
+                    <div class="summary-row total-row">
+
+                        <span>
+                            Total
+                        </span>
+
+                        <span>
+                            ₹{{ "%.2f"|format(cart_total + 40) }}
+                        </span>
+
+                    </div>
+
+
+                    <a
+                        
+                        href="{{ url_for('checkout') }}"
+                        class="checkout-btn"
+                    >
+                        Proceed to Checkout
+
+                    </a>
+
+                </div>
+
+
+            </div>
+
+
+        {% else %}
+
+
+            <!-- =========================
+                 EMPTY CART
+            ========================== -->
+
+            <div class="empty-cart">
+
+                <h2>
+                    Your cart is empty
+                </h2>
+
+
+                <p>
+                    Add some delicious food
+                    from our restaurants.
+                </p>
+
+
+                <a
+                    href="{{ url_for('restaurants') }}"
+                    class="browse-btn"
+                >
+                    Browse Restaurants
+                </a>
+
+            </div>
+
+
+        {% endif %}
+
+
+    </main>
+
+
+</body>
+
+</html>

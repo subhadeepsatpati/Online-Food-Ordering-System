@@ -1,0 +1,196 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+body {
+
+    font-family: Arial, sans-serif;
+
+    background: #f5f5f5;
+
+    min-height: 100vh;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+}
+
+
+.register-container {
+
+    width: 100%;
+
+    max-width: 500px;
+
+    padding: 20px;
+
+}
+
+
+.register-box {
+
+    background: white;
+
+    padding: 35px;
+
+    border-radius: 12px;
+
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+
+}
+
+
+h1 {
+
+    text-align: center;
+
+    margin-bottom: 8px;
+
+}
+
+
+.subtitle {
+
+    text-align: center;
+
+    color: #777;
+
+    margin-bottom: 25px;
+
+}
+
+
+.form-group {
+
+    margin-bottom: 18px;
+
+}
+
+
+.form-group label {
+
+    display: block;
+
+    margin-bottom: 7px;
+
+    font-weight: bold;
+
+}
+
+
+.form-group input,
+.form-group textarea {
+
+    width: 100%;
+
+    padding: 12px;
+
+    border: 1px solid #ccc;
+
+    border-radius: 6px;
+
+    font-size: 15px;
+
+}
+
+
+.form-group input:focus,
+.form-group textarea:focus {
+
+    outline: none;
+
+    border-color: #ff5722;
+
+}
+
+
+.form-group textarea {
+
+    resize: vertical;
+
+}
+
+
+.register-btn {
+
+    width: 100%;
+
+    padding: 13px;
+
+    border: none;
+
+    border-radius: 6px;
+
+    background: #ff5722;
+
+    color: white;
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+}
+
+
+.register-btn:hover {
+
+    background: #e64a19;
+
+}
+
+
+.message {
+
+    padding: 12px;
+
+    margin-bottom: 20px;
+
+    border-radius: 6px;
+
+}
+
+
+.message.success {
+
+    background: #d4edda;
+
+    color: #155724;
+
+}
+
+
+.message.error {
+
+    background: #f8d7da;
+
+    color: #721c24;
+
+}
+
+
+.login-link {
+
+    text-align: center;
+
+    margin-top: 20px;
+
+}
+
+
+.login-link a {
+
+    color: #ff5722;
+
+    text-decoration: none;
+
+    font-weight: bold;
+
+}
