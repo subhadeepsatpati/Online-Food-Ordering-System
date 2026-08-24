@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        {{ restaurant[1] }} - Menu
+    </title>
+
+    <style>
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        background: #f6f6f6;
+        color: #222;
+    }
+
+
+    /* ==========================
+    NAVBAR
+    ========================== */
+
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 18px 60px;
+        background: white;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .logo {
+        font-size: 28px;
+        font-weight: bold;
+        color: #ff5722;
+    }
+
+    .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 28px;
+    }
+
+    .nav-links a {
+        text-decoration: none;
+        color: #222;
+        font-size: 16px;
+        font-weight: 500;
+        transition: 0.3s;
+    }
+
+    .nav-links a:hover {
+        color: #ff5722;
+    }
+
+
+    /* ==========================
+    RESTAURANT HEADER
+    ========================== */
+
+    .restaurant-header {
+        background: white;
+        text-align: center;
+        padding: 55px 20px 45px;
+        border-bottom: 1px solid #eee;
+    }
+
+    .restaurant-header h1 {
+        font-size: 42px;
+        margin-bottom: 14px;
+    }
+
+    .restaurant-header p {
+        color: #666;
+        font-size: 17px;
+        margin: 8px 0;
+    }
+
+    .restaurant-header .rating {
+        color: #ff9800;
+        font-weight: bold;
+        font-size: 18px;
+    }
+
+
+    /* ==========================
+    MENU CONTAINER
+    ========================== */
+
+    .menu-container {
+        max-width: 1200px;
+        margin: 45px auto;
+        padding: 0 25px;
+    }
+
+    .menu-title {
+        text-align: center;
+        font-size: 34px;
+        margin-bottom: 35px;
+    }
+
+    .menu-title::after {
+        content: "";
+        display: block;
+        width: 75px;
+        height: 4px;
+        background: #ff5722;
+        border-radius: 10px;
+        margin: 14px auto 0;
+    }
+
+
+    /* ==========================
+    MENU GRID
+    ========================== */
+
+    .menu-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 28px;
+    }
+
+
+    /* ==========================
+    FOOD CARD
+    ========================== */
+
+    .food-card {
+        background: white;
+        border-radius: 14px;
+        overflow: hidden;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        transition: 0.3s ease;
+    }
+
+    .food-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 10px 28px rgba(0, 0, 0, 0.13);
+    }
+
+
+    /* ==========================
+    FOOD IMAGE
+    ========================== */
+
+    .food-image {
+        width: 100%;
+        height: 230px;
+        object-fit: cover;
+        display: block;
+        background: #ddd;
+    }
+
+
+    /* ==========================
+    FOOD CONTENT
+    ========================== */
+
+    .food-content {
+        padding: 22px;
+    }
+
+    .category {
+        display: inline-block;
+        background: #fff0eb;
+        color: #ff5722;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 13px;
+        font-weight: 500;
+        margin-bottom: 12px;
+    }
+
+    .food-content h2 {
+        font-size: 25px;
+        margin-bottom: 10px;
+    }
+
+    .description {
+        color: #666;
+        line-height: 1.6;
+        min-height: 52px;
+        margin-bottom: 20px;
+    }
+
+
+    /* ==========================
+    PRICE + BUTTON
+    ========================== */
+
+    .bottom-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .price {
+        font-size: 22px;
+        font-weight: bold;
+        color: #222;
+    }
+
+    .add-btn {
+        border: none;
+        padding: 12px 20px;
+        border-radius: 8px;
+        background: #ff5722;
+        color: white;
+        font-size: 15px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .add-btn:hover {
+        background: #e64a19;
+        transform: translateY(-2px);
+    }
+
+
+    /* ==========================
+    FLASH MESSAGES
+    ========================== */
+
+    .flash-container {
+        max-width: 1100px;
+        margin: 20px auto;
+        padding: 0 20px;
+    }
+
+    .flash-message {
+        padding: 15px 20px;
+        border-radius: 8px;
+        margin-bottom: 10px;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .flash-message.success {
+        background: #d4edda;
+        color: #155724;
+    }
+
+    .flash-message.error {
+        background: #f8d7da;
+        color: #721c24;
+    }
+
+
+    /* ==========================
+    EMPTY MENU
+    ========================== */
+
+    .empty-menu {
+        text-align: center;
+        padding: 70px 20px;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
+    }
+
+    .empty-menu h2 {
+        margin-bottom: 10px;
+    }
+
+    .empty-menu p {
+        color: #777;
+    }
+
+
+    /* ==========================
+    RESPONSIVE DESIGN
+    ========================== */
+
+    @media (max-width: 900px) {
+
+        .menu-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .navbar {
+            padding: 18px 30px;
+        }
+
+    }
+
+
+    @media (max-width: 600px) {
+
+        .navbar {
+            flex-direction: column;
+            gap: 15px;
+            padding: 18px 20px;
+        }
+
+        .nav-links {
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .restaurant-header h1 {
+            font-size: 32px;
+        }
+
+        .menu-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .food-image {
+            height: 220px;
+        }
+
+    }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ==========================
+     NAVBAR
+========================== -->
+
+<nav class="navbar">
+
+    <div class="logo">
+        FoodExpress
+    </div>
+
+
+    <div class="nav-links">
+
+        <a href="{{ url_for('home') }}">
+            Home
+        </a>
+
+        <a href="{{ url_for('restaurants') }}">
+            Restaurants
+        </a>
+
+         <a href="{{ url_for('cart') }}">
+            🛒 View Cart
+        </a>
+
+
+        {% if session.get("user_id") %}
+
+            <a href="{{ url_for('profile') }}">
+                Profile
+            </a>
+
+            <a href="{{ url_for('logout') }}">
+                Logout
+            </a>
+
+        {% else %}
+
+            <a href="{{ url_for('register') }}">
+                Register
+            </a>
+
+            <a href="{{ url_for('login') }}">
+                Login
+            </a>
+
+        {% endif %}
+
+    </div>
+
+</nav>
+
+<!-- ==========================
+     FLASH MESSAGES
+========================== -->
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+
+    {% if messages %}
+
+        <div class="flash-container">
+
+            {% for category, message in messages %}
+
+                <div class="flash-message {{ category }}">
+                    {{ message }}
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% endif %}
+
+{% endwith %}
+
+
+<!-- ==========================
+     RESTAURANT INFORMATION
+========================== -->
+
+<section class="restaurant-header">
+
+    <h1>
+        {{ restaurant[1] }}
+    </h1>
+
+
+    <p>
+        {{ restaurant[2] }}
+    </p>
+
+
+    <p>
+        📍 {{ restaurant[3] }}
+    </p>
+
+
+    <p class="rating">
+        ⭐ {{ restaurant[6] }}
+    </p>
+
+</section>
+
+
+<!-- ==========================
+     MENU
+========================== -->
+
+<div class="menu-container">
+
+    <h2 class="menu-title">
+        Menu
+    </h2>
+
+
+    {% if menu_items %}
+
+        <div class="menu-grid">
+
+
+            {% for item in menu_items %}
+
+                <div class="food-card">
+
+
+                    {% if item[6] %}
+
+                        <img
+                            src="{{ item[6] }}"
+                            alt="{{ item[2] }}"
+                            class="food-image"
+                        >
+
+                    {% else %}
+
+                        <div class="food-image"></div>
+
+                    {% endif %}
+
+
+                    <div class="food-content">
+
+
+                        <span class="category">
+
+                            {{ item[5] }}
+
+                        </span>
+
+
+                        <h2>
+                            {{ item[2] }}
+                        </h2>
+
+
+                        <p class="description">
+
+                            {{ item[3] }}
+
+                        </p>
+
+
+                        <div class="bottom-row">
+
+
+                            <span class="price">
+
+                                ₹{{ "%.2f"|format(item[4]) }}
+
+                            </span>
+
+
+                           <form
+                                action="{{ url_for('add_item_to_cart', menu_item_id=item[0]) }}"
+                                method="POST"
+                            >
+                            
+                                <button
+                                    class="add-btn"
+                                    type="submit"
+                                >
+                                    Add to Cart
+                                </button>
+                            
+                            </form>
+
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+
+        </div>
+
+    {% else %}
+
+        <div class="empty-menu">
+
+            <h2>
+                No food items available.
+            </h2>
+
+            <p>
+                This restaurant has not added
+                any menu items yet.
+            </p>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+    
+</body>
+
+
+
+</html>
